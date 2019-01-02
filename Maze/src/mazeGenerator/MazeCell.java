@@ -14,9 +14,11 @@ public class MazeCell {
 	private MazeCell north, south, east, west;
 	private Point location;	// Refers to top left corner of component
 	private boolean visited = false;
+	private long id;
 	
-	public MazeCell(int x, int y) {
+	public MazeCell(int x, int y, long id) {
 		location = new Point(x, y);
+		this.id = id;
 		
 		north = null;
 		south = null;
@@ -68,6 +70,10 @@ public class MazeCell {
 		
 		
 		return unvisited;
+	}
+	
+	public long getId() {
+		return id;
 	}
 	
 	

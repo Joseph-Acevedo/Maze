@@ -8,6 +8,7 @@ package mazeGenerator;
 /* ===== IMPORTS ===== */
 import javax.swing.JPanel;
 import javax.swing.JFrame;
+import javax.swing.Timer;
 
 import java.awt.BasicStroke;
 import java.awt.BorderLayout;
@@ -29,16 +30,17 @@ public class MazeGenerator extends JPanel {
 	/* ===== GRAPHICS CONSTANTS ===== */
 	protected static final long serialVersionUID = 1L;
 	
-	protected static final int WINDOW_WIDTH  = 800;
-	protected static final int WINDOW_HEIGHT = 800;
-	protected static final int MAZE_WIDTH  = 20;
-	protected static final int MAZE_HEIGHT = 20;
+	protected static final int WINDOW_WIDTH  = 1000;
+	protected static final int WINDOW_HEIGHT = 1000;
+	protected static final int MAZE_WIDTH  = 50;
+	protected static final int MAZE_HEIGHT = 50;
 	protected static final int WALL_WIDTH = 5;
 	
 	protected static final Point START_POS = new Point(0, 0);
 	
 	/* ===== GLOBAL VARIABLES ===== */
 	protected JFrame frame;
+	protected Timer visualize;
 	
 	protected ArrayList<MazeCell> cells;
 	
@@ -50,6 +52,8 @@ public class MazeGenerator extends JPanel {
 		cellHeight = (int) (WINDOW_HEIGHT / MAZE_HEIGHT);
 		
 		cells = new ArrayList<MazeCell>(MAZE_WIDTH * MAZE_HEIGHT);
+		
+		//timer = new Timer(cellHeight, null);
 		
 		createComponentGrid();
 		
@@ -74,9 +78,11 @@ public class MazeGenerator extends JPanel {
 	 * Creates a grid of MazeComponents that are initialized with no connections
 	 */
 	protected void createComponentGrid() {
-		for (int x = 0; x < MAZE_WIDTH; x++) {
-			for (int y = 0; y < MAZE_HEIGHT; y++) {
-				cells.add(new MazeCell(x, y));
+		long currId = 0L;
+		
+		for (int y = 0; y < MAZE_WIDTH; y++) {
+			for (int x = 0; x < MAZE_HEIGHT; x++) {
+				cells.add(new MazeCell(x, y, currId++));
 			}
 		}
 	}
@@ -96,6 +102,17 @@ public class MazeGenerator extends JPanel {
 		
 		for (MazeCell mc: cells) {
 			Point loc = mc.getLocation();
+			
+
+			
+			if (mc.getVisited()) {
+				g2.setColor(Color.BLUE);
+				g2.fillRect(loc.x * cellWidth, loc.y * cellHeight, cellWidth, cellHeight);
+				g2.setColor(Color.BLACK);
+			}
+			/*
+			g2.drawString( Long.toString( mc.getId() ) , loc.x * cellWidth + cellWidth / 2, loc.y * cellHeight + cellHeight / 2);
+			*/
 			if (mc.getEast() == null) {
 				g2.drawLine( (loc.x * cellWidth) + cellWidth, (loc.y * cellHeight), 
 							 (loc.x * cellWidth) + cellWidth, (loc.y * cellHeight) + cellHeight);

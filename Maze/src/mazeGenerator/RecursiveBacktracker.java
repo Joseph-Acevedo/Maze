@@ -111,5 +111,6 @@ public class RecursiveBacktracker extends MazeGenerator {
 	public static void main(String[] args) {
 		RecursiveBacktracker rb = new RecursiveBacktracker();
 		rb.createMaze();
+		
 	}
 }
